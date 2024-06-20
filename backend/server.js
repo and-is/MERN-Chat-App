@@ -2,7 +2,11 @@ import express from "express";
 import data from "./data/data.js";
 import dotenv from "dotenv";
 import cors from "cors";
+import colors from "colors";
+import connectDB from "./config/db.js";
 dotenv.config();
+
+connectDB();
 
 const app = express();
 
@@ -28,4 +32,4 @@ app.get("/api/chat/:id", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, console.log(`Server started on PORT ${PORT}`));
+app.listen(PORT, console.log(`Server started on PORT ${PORT}`.yellow.bold));
