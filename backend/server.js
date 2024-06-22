@@ -4,11 +4,15 @@ import dotenv from "dotenv";
 import cors from "cors";
 import colors from "colors";
 import connectDB from "./config/db.js";
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+import userRoutes from "./Routes/userRoutes.js";
 dotenv.config();
 
 connectDB();
 
 const app = express();
+
+app.use(express.json());
 
 app.use(
   cors({
@@ -20,15 +24,10 @@ app.get("/", (req, res) => {
   res.send("API is running successfully!");
 });
 
-app.get("/api/chat", (req, res) => {
-  res.send(data);
-});
+app.use("/api/user", userRoutes);
 
-app.get("/api/chat/:id", (req, res) => {
-  // console.log(req.params.id);
-  const singleChat = data.find((c) => c._id === req.params.id);
-  res.send(singleChat);
-});
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

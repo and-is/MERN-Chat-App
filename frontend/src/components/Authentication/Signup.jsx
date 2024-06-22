@@ -3,6 +3,7 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { useState } from "react";
 import { Button } from "@chakra-ui/button";
+import { useToast } from "@chakra-ui/react";
 
 const Signup = () => {
   const [show, setShow] = useState(false);
@@ -11,12 +12,34 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [pic, setPic] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const toast = useToast();
 
   const handleClick = () => {
     setShow(!show);
   };
 
-  const postDetails = (pics) => {};
+  const postDetails = (pics) => {
+    setLoading(true);
+    if (pics === undefined) {
+      toast({
+        title: "Please select an image!",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
+    if (pics.type === "image/jpeg" || pics.type === "image/png") {
+      const data = new FormData();
+      data.append("file", pics);
+      data.append("upload_preset", "chatapp");
+      data.append("cloud_name", "andis");
+      fetch("");
+    }
+  };
 
   const submitHandler = () => {};
 
